@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { dummyMovies } from '../../models/dummy-movie';
 import { Movie } from '../../models/movie';
 
 @Component({
   selector: 'app-movie',
-  templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.css']
+  templateUrl: './movie-catalog.component.html',
+  styleUrls: ['./movie-catalog.component.css']
 })
-export class MovieComponent implements OnInit {
+export class MovieCatalogComponent implements OnInit {
 
   listMovie: Movie[] | undefined;
   selectedMovie: Movie | undefined;
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.listMovie = dummyMovies;
@@ -25,4 +26,8 @@ export class MovieComponent implements OnInit {
     console.log(event);
   }
   
+  openMovie(movie: Movie) {
+    this.router.navigate(['movie-detail/' + movie.id]);
+  }
+
 }

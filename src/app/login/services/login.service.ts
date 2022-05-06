@@ -12,19 +12,11 @@ export class LoginService {
   userName: string | undefined;
   isLogged: boolean = false;
 
-  isLogged$: Observable<boolean> = new Observable(t => {
-    this.eventLogin.subscribe(event => {
-      console.log(event);
-      t.next(event);
-    });
-  });
-
   constructor(private router: Router) { }
 
   doLogon(userName: string) {
     this.userName = userName;
     this.isLogged = true;
-    //alert('SecuritySVC tells me: ' + userName);
     this.eventLogin.emit(true);
   }
 
@@ -35,9 +27,10 @@ export class LoginService {
     this.router.navigate(['login']);
   }
 
-  // checkUser() {
-  //   if (this.isLogged == false) {
-  //     this.router.navigate(['login']);
-  //   }
-  // }
+  checkUser() {
+    if (this.isLogged == false) {
+      this.router.navigate(['login']);
+    }
+  }
+  
 }
