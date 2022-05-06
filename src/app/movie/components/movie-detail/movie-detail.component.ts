@@ -13,37 +13,37 @@ import { Movie } from '../../models/movie';
 })
 export class MovieDetailComponent implements OnInit {
 
-  pageTitle:string = 'Movie Detail';
+  pageTitle: string = 'Movie Detail';
   movie: Movie | undefined;
   movieList: Movie[] = dummyMovies;
   newMovie: boolean = false;
   movieDate: string | undefined;
 
   @ViewChild("movieForm") private movieForm: NgForm | undefined;
-  
+
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private datePipe: DatePipe ) { }
+    private router: Router,
+    private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     const id = +this.route.snapshot.params['id'];
-    if(id !== undefined) {
-      this.movie = dummyMovies.filter(m => m.id === id)[0];      
+    if (id !== undefined) {
+      this.movie = dummyMovies.filter(m => m.id === id)[0];
       this.movieDate = this.datePipe.transform(this.movie.date, 'dd/MM/yyyy')!;
 
     }
   }
 
   onSubmit() {
-    console.log(this.movieForm);
+    this.onSaveComplete();
   }
 
-  
+
   // saveMovie() {
   //   if (this.movieForm.valid) {
   //     if (this.movieForm.dirty) {
   //       const m = { ...this.movie, ...this.movieForm.value }; //override movie fields with values of form edited
-        
+
   //       if (m.id === 0) {
   //         this.movieService.createMovie(m)
   //           .subscribe({
@@ -70,11 +70,11 @@ export class MovieDetailComponent implements OnInit {
   deleteMovie(): void {
     if (this.movie?.id === 0) {
       // Don't delete, it was never saved.
-      this.onSaveComplete();     
+      this.onSaveComplete();
     } else if (this.movie!.id) {
       if (confirm(`Really delete the movie: ${this.movie!.title}?`)) {
-          setTimeout(() => alert('Movie deleted!') , 1000);
-          setTimeout(() => this.router.navigate(['/movie-catalog']) , 1000);
+        setTimeout(() => alert('Movie deleted!'), 1000);
+        setTimeout(() => this.router.navigate(['/movie-catalog']), 1000);
       }
     }
   }
@@ -84,10 +84,14 @@ export class MovieDetailComponent implements OnInit {
     alert('Form Reset');
   }
 
-  onSaveComplete(): void {    
-    setTimeout(() => alert('Movie saved!') , 1000);    
-    this.movieForm!.reset();
-    this.router.navigate(['/movie-catalog']);
+  onSaveComplete(): void {
+    setTimeout(() => {
+      this.movieForm!.reset();
+      alert('Movie saved!');
+      this.router.navigate(['/movie-catalog']);
+    }, 1000);
+
+
   }
 
 }

@@ -12,7 +12,7 @@
                     <label for="movieId" class="col-sm-2 col-form-label">Id</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="movieId" #id="ngModel" #ctrl_id
-                            [(ngModel)]="movie!.id" name="id">
+                            [(ngModel)]="movie!.id" name="id" required readonly>
                     </div>
                 </div>
                 <div class="form-group row mt-1">
@@ -27,7 +27,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="movieDate" #date="ngModel" #ctrl_date
                             [(ngModel)]="movieDate" name="date"
-                            pattern="^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$" >
+                            pattern="^(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$" >
                     </div>
                 </div>
                 <div class="form-group row mt-1">
