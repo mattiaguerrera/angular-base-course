@@ -4,10 +4,10 @@ import { Movie } from '../../models/movie';
 
 @Component({
   selector: 'app-movie',
-  templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.css']
+  templateUrl: './movie-catalog.component.html',
+  styleUrls: ['./movie-catalog.component.css']
 })
-export class MovieComponent implements OnInit {
+export class MovieCatalogComponent implements OnInit {
 
   listMovie: Movie[] | undefined;
   selectedMovie: Movie | undefined;

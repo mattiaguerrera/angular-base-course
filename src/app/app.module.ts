@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/components/login.component';
 import { HomeComponent } from './home/home.component';
-import { MovieComponent } from './movie/components/movie-catalog/movie.component';
+import { MovieCatalogComponent } from './movie/components/movie-catalog/movie-catalog.component';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
 
@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    MovieComponent,
+    MovieCatalogComponent,
   ],
   imports: [
     BrowserModule,
