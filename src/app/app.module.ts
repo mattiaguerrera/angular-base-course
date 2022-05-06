@@ -3,22 +3,26 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/components/login.component';
 import { HomeComponent } from './home/home.component';
-import { MovieComponent } from './movie/components/movie.component';
+import { MovieComponent } from './movie/components/movie-catalog/movie.component';
+import { SharedModule } from './shared/shared.module';
+import { FormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    MovieComponent
+    MovieComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    SharedModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

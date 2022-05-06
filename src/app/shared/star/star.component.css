@@ -1,0 +1,10 @@
+.crop {
+  overflow: hidden;
+}
+.crop span {
+  display: table-cell;
+}
+
+div {
+  cursor: pointer;
+}
