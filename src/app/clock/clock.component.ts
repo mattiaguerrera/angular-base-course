@@ -21,7 +21,7 @@ export class ClockComponent implements OnInit, OnDestroy {
 
   clock$ = new Observable<string>(t => {
     this.intervals["clock"] = setInterval(() => {
-      console.log(this.secondsToAlarm);
+      // console.log(this.secondsToAlarm);
       if (this.secondsToAlarm == null || this.secondsToAlarm == 0) {
         t.next("beep!");
         t.complete();
@@ -35,9 +35,18 @@ export class ClockComponent implements OnInit, OnDestroy {
     )
   });
 
-  constructor() { }
+  clock2$ = new Observable<string>(t => {
+    setInterval(() => {
+      t.next(new Date().toString());
+    }, 1000
+    )
+  });
+
+  constructor() {
+   }
 
   ngOnInit(): void {
+    this.clock2$.subscribe();
   }
 
   ngOnDestroy(): void {
@@ -47,8 +56,10 @@ export class ClockComponent implements OnInit, OnDestroy {
   setAlarm() {
     clearInterval(this.intervals["clock"]);
     this.timeArr = [];
+
+    //Example clock$
     this.sub = this.clock$.pipe(tap(
-      t => console.log(t)
+      // t => console.log(t)
     )
       // , filter(y => {
       //   if (y == 'beep!')
