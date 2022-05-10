@@ -1,13 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-
-  private eventLogin: EventEmitter<boolean> = new EventEmitter();
 
   userName: string | undefined;
   isLogged: boolean = false;
@@ -17,13 +14,11 @@ export class LoginService {
   doLogon(userName: string) {
     this.userName = userName;
     this.isLogged = true;
-    this.eventLogin.emit(true);
   }
 
   logout() {
     this.isLogged = false;
     this.userName = undefined;
-    this.eventLogin.emit(false);
     this.router.navigate(['login']);
   }
 
