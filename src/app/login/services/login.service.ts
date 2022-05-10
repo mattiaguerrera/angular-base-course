@@ -12,6 +12,13 @@ export class LoginService {
   userName: string | undefined;
   isLogged: boolean = false;
 
+  isLogged$: Observable<boolean> = new Observable(t => {
+    this.eventLogin.subscribe(event => {
+      console.log(event);
+      t.next(event);
+    });
+  });
+  
   constructor(private router: Router) { }
 
   doLogon(userName: string) {

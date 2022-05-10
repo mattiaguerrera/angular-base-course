@@ -11,12 +11,20 @@ export class AppComponent {
   title = 'angular-base-course';
 
 
-  constructor(public loginService: LoginService,
-              private router: Router) {
+  constructor(
+    public loginService: LoginService,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.loginService.isLogged$.subscribe((t: boolean) => {
+      if (t == true)
+        this.router.navigate(['home']);
+    });
   }
 
   logout() {
     this.loginService.logout();
   }
-  
+
 }

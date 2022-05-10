@@ -10,6 +10,7 @@ import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { MovieDetailComponent } from './movie/components/movie-detail/movie-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ClockComponent } from './clock/clock.component';
 
 
 
@@ -21,6 +22,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MovieCatalogComponent,
     MovieDetailComponent,
     PageNotFoundComponent,
+    ClockComponent,
   ],
   imports: [
     BrowserModule,

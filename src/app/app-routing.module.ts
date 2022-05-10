@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ClockComponent } from './clock/clock.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/components/login.component';
 import { MovieCatalogComponent } from './movie/components/movie-catalog/movie-catalog.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'movies', redirectTo: '/movie-catalog', pathMatch: 'full' },
   { path: 'movie-catalog', component: MovieCatalogComponent },
   { path: 'movie-detail/:id', component: MovieDetailComponent  },
+  { path: 'clock', component: ClockComponent  },
   { path: '**', component: PageNotFoundComponent }
 
 ];
