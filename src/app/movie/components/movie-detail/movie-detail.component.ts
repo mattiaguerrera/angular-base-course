@@ -29,14 +29,15 @@ export class MovieDetailComponent implements OnInit {
     this.movieList = dummyMovies;
     const id = this.route.snapshot.params['id'];
     console.log(id);
-    console.log(typeof(id));
+    console.log(typeof (id));
     if (id !== undefined) {
       if (id == 'new') {
         this.newMovie = true;
         this.setDefaultForm();
       } else {
-        this.movie = dummyMovies.filter(m => m.id === parseInt(id))[0];
-        this.movieDate = this.datePipe.transform(this.movie.date, 'dd/MM/yyyy')!;
+        const m = dummyMovies.filter(m => m.id === parseInt(id))[0];
+        this.movie = JSON.parse(JSON.stringify(m)); //in questo modo clono il mio oggetto per la reset()
+        this.movieDate = this.datePipe.transform(this.movie?.date, 'dd/MM/yyyy')!;
       }
     }
   }
@@ -87,7 +88,7 @@ export class MovieDetailComponent implements OnInit {
   }
 
   resetForm() {
-    this.movieForm?.reset();    
+    this.movieForm?.reset();
   }
 
   setDefaultForm() {
