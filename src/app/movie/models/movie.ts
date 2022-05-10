@@ -6,4 +6,5 @@ export interface Movie {
   date: string;
   title: string;
   rating: number;
+  genreTitle: string
 }

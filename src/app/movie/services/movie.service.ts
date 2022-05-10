@@ -16,8 +16,7 @@ export class MovieService {
     const list = this.http.get<Movie[]>(environment.urlMovie);
     const filterList = list.pipe(
       map((x: Movie[]) => {
-        const ret = x;
-        ret.forEach(y => y.poster_path = environment.urlMovieBase.concat('/', y.poster_path!));
+        x.forEach(y => y.poster_path = environment.urlMovieBase.concat('/', y.poster_path!));
         return x;
       })
     );
@@ -83,7 +82,8 @@ export class MovieService {
       id: 0,
       date: '',
       title: '',
-      rating: 0
+      rating: 0,
+      genreTitle: ''
     };
     return movie;
   }

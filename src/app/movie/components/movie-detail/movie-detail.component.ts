@@ -20,7 +20,6 @@ export class MovieDetailComponent implements OnInit {
   movieList: Movie[] = [];
   newMovie: boolean = false;
   movieDate: string | undefined;
-  movieGenre: string | undefined;
 
   @ViewChild("movieForm") private movieForm: NgForm | undefined;
 
@@ -73,7 +72,7 @@ export class MovieDetailComponent implements OnInit {
               (genre) => genre.id == m.genre_id
             );
             if (myGenre)
-              this.movieGenre = myGenre[0].title;
+              this.movie!.genreTitle = myGenre[0].title;
           }
         }
       );
@@ -94,14 +93,16 @@ export class MovieDetailComponent implements OnInit {
               error: err => alert(err)
             });
         } else {
-          m.date = this.datePipe.transform(m.date, 'yyyy-MM-dd');
+          const dateSplit = m.date.split('/');
+          const dateConcat = (dateSplit[2] + '-' + dateSplit[1] + '-' + dateSplit[0]);
+          const date = new Date(dateConcat);
+          m.date = this.datePipe.transform(date, 'yyyy-MM-dd');
           this.movieService.updateMovie(m)
             .subscribe({
               next: () => this.onSaveComplete(),
               error: err => alert(err)
             });
         }
-
       }
     } else {
       alert('Please correct the validation errors');
@@ -124,7 +125,20 @@ export class MovieDetailComponent implements OnInit {
   }
 
   resetForm() {
-    this.movieForm?.reset();
+    //gestisco un cast ad any perché devo gestire la property genre che non appartiene alla classe Movie
+    const m:any = { 
+      id: 0,
+      date: '',
+      title: '',
+      rating: 0,
+      note:'',
+      genre:'',
+      movieGenre:''
+    }
+    // this.movieGenre = '';
+    this.movieForm?.reset(
+      this.movieForm?.setValue(m)
+      );
   }
 
   onSaveComplete(): void {
@@ -138,3 +152,4 @@ export class MovieDetailComponent implements OnInit {
   }
 
 }
+
