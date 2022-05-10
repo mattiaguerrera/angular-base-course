@@ -1,8 +1,22 @@
-
 <div *ngIf="listMovie">
     <div class="row mt-4">
         <div class="col-12">
             <h2>Movie Catalog</h2>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-9">
+                    <input [(ngModel)]="titleFilter" [ngModelOptions]="{standalone: true}" class="form-control"
+                        name="title" placeholder="Title">
+                </div>
+                <div class="col-3">
+                    <button (click)="applyFilter()" class="btn btn-primary" type="submit">Filtra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12">
             <table class="table table-striped table-dark">
                 <thead class="thead-dark">
                     <tr>

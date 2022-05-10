@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { MovieDetailComponent } from './movie/components/movie-detail/movie-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ClockComponent } from './clock/clock.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -28,7 +29,8 @@ import { ClockComponent } from './clock/clock.component';
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

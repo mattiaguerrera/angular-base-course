@@ -2,8 +2,9 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { dummyMovies } from '../../models/dummy-movie';
+import { Subscription } from 'rxjs';
 import { Movie } from '../../models/movie';
+import { MovieService } from '../../services/movie.service';
 
 @Component({
   selector: 'app-movie-detail',
@@ -13,67 +14,99 @@ import { Movie } from '../../models/movie';
 })
 export class MovieDetailComponent implements OnInit {
 
+  sub: Subscription | undefined;
   pageTitle: string = 'Movie Detail';
   movie: Movie | null = null;
   movieList: Movie[] = [];
   newMovie: boolean = false;
   movieDate: string | undefined;
+  movieGenre: string | undefined;
 
   @ViewChild("movieForm") private movieForm: NgForm | undefined;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    private movieService: MovieService) { }
 
   ngOnInit(): void {
-    this.movieList = dummyMovies;
-    const id = this.route.snapshot.params['id'];
-    console.log(id);
-    console.log(typeof(id));
-    if (id !== undefined) {
-      if (id == 'new') {
-        this.newMovie = true;
-        this.setDefaultForm();
-      } else {
-        const m = dummyMovies.filter(m => m.id === parseInt(id))[0];
-        this.movie = JSON.parse(JSON.stringify(m)); //in questo modo clono il mio oggetto per la reset()
-        this.movieDate = this.datePipe.transform(this.movie?.date, 'dd/MM/yyyy')!;
+    // Read the product Id from the route parameter
+    this.sub = this.route.paramMap.subscribe(
+      () => {
+        let id: number = 0;
+        const param = String(this.route.snapshot.paramMap.get('id'));
+        id = Number(param);
+        if (typeof param == 'string' && param === 'new') {
+          this.newMovie = true
+          id = 0;
+        }
+        this.getMovie(id);
       }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
+
+  getMovie(id: number): void {
+    this.sub = this.movieService.getMoviebyID(id)
+      .subscribe({
+        next: (data: Movie) => { this.displayMovie(data); },
+        error: err => { console.log(err); }
+      });
+  }
+
+  displayMovie(m: Movie): void {
+    if (this.movieForm) {
+      this.movieForm.reset();
+    }
+    this.movie = m;
+    this.pageTitle = (!this.movie.id ? 'Add Movie' : 'Edit Movie');
+    this.movieDate = this.datePipe.transform(this.movie.date, "dd/MM/yyyy")?.toString();
+
+    if (m.genre_id) {
+      this.sub = this.movieService.getMovieGenresList().subscribe(
+        data => {
+          if (data) {
+            const myGenre = data.filter(
+              (genre) => genre.id == m.genre_id
+            );
+            if (myGenre)
+              this.movieGenre = myGenre[0].title;
+          }
+        }
+      );
     }
   }
 
   onSubmit() {
-    this.onSaveComplete();
+    if (this.movieForm?.valid) {
+      if (this.movieForm.dirty) {
+        const m = { ...this.movie, ...this.movieForm.value }; //override movie fields with values of form edited
+        if (m.id === 0) {
+          this.movieService.createMovie(m)
+            .subscribe({
+              next: x => {
+                console.log(x);
+                return this.onSaveComplete();
+              },
+              error: err => alert(err)
+            });
+        } else {
+          m.date = this.datePipe.transform(m.date, 'yyyy-MM-dd');
+          this.movieService.updateMovie(m)
+            .subscribe({
+              next: () => this.onSaveComplete(),
+              error: err => alert(err)
+            });
+        }
+
+      }
+    } else {
+      alert('Please correct the validation errors');
+    }
   }
-
-
-  // saveMovie() {
-  //   if (this.movieForm.valid) {
-  //     if (this.movieForm.dirty) {
-  //       const m = { ...this.movie, ...this.movieForm.value }; //override movie fields with values of form edited
-
-  //       if (m.id === 0) {
-  //         this.movieService.createMovie(m)
-  //           .subscribe({
-  //             next: x => {
-  //               console.log(x);
-  //               return this.onSaveComplete();
-  //             },
-  //             error: err => this.errorMessage = err
-  //           });
-  //       } else {
-  //         this.movieService.updateMovie(m)
-  //           .subscribe({
-  //             next: () => this.onSaveComplete(),
-  //             error: err => this.notifyService.showWarning('Error Updating Movie', err)
-  //           });
-  //       }
-
-  //     }
-  //   } else {      
-  //     this.notifyService.showWarning('', 'Please correct the validation errors');
-  //   }
-  // }
 
   deleteMovie(): void {
     if (this.movie?.id === 0) {
@@ -81,24 +114,17 @@ export class MovieDetailComponent implements OnInit {
       this.onSaveComplete();
     } else if (this.movie!.id) {
       if (confirm(`Really delete the movie: ${this.movie!.title}?`)) {
-        setTimeout(() => alert('Movie deleted!'), 1000);
-        setTimeout(() => this.router.navigate(['/movie-catalog']), 1000);
+        this.sub = this.movieService.deleteMovie(this.movie!.id).subscribe({
+          next: () => this.onSaveComplete(),
+          error: (err: any) => alert(err)
+        }
+        );
       }
     }
   }
 
   resetForm() {
-    this.movieForm?.reset();    
-  }
-
-  setDefaultForm() {
-    this.movie = {
-      id: -1,
-      title: '',
-      genere: '',
-      rating: 0,
-      date: new Date()
-    };
+    this.movieForm?.reset();
   }
 
   onSaveComplete(): void {

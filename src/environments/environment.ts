@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,  
+  urlMovie: "http://localhost:7000/movies",
+  urlMovieGenre: "http://localhost:7000/genres",
+  urlMovieBase: "https://image.tmdb.org/t/p/w370_and_h556_bestv2/",
+
 };
 
 /*
