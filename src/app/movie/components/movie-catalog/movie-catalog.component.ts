@@ -16,6 +16,7 @@ export class MovieCatalogComponent implements OnInit {
 
   ngOnInit(): void {
     this.listMovie = dummyMovies;
+    console.log(this.listMovie);
   }
   
   selectMovie(movie: Movie) {
@@ -28,6 +29,10 @@ export class MovieCatalogComponent implements OnInit {
   
   openMovie(movie: Movie) {
     this.router.navigate(['movie-detail/' + movie.id]);
+  }
+
+  addMovie() {
+    this.router.navigate(['movie-detail/new']);
   }
 
 }

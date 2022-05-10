@@ -27,7 +27,7 @@
                             <pm-star [rating]="movie.rating" (ratingClicked)="showRating($event)"></pm-star>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-light" (click)="openMovie(movie);">detail</button>
+                            <button type="button" class="btn btn-secondary" (click)="openMovie(movie);">detail</button>
                         </td>
                     </tr>
                 </tbody>
@@ -37,6 +37,9 @@
             <div class="mb-3">
                 Nr. items: {{listMovie?.length}}
             </div>
+        </div>
+        <div class="col-10 mt-3 text-right">
+            <button type="button" class="btn btn-primary" (click)="addMovie();">Add Movie</button>
         </div>
     </div>
 

@@ -1,6 +1,6 @@
 import { Movie } from "./movie";
 
-export var dummyMovies: Movie[] = [
+export const dummyMovies: Movie[] = [
   {
     id: 1, 
     title: 'L\'implacabile', 

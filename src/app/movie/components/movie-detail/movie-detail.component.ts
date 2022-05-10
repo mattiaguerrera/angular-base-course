@@ -14,8 +14,8 @@ import { Movie } from '../../models/movie';
 export class MovieDetailComponent implements OnInit {
 
   pageTitle: string = 'Movie Detail';
-  movie: Movie | undefined;
-  movieList: Movie[] = dummyMovies;
+  movie: Movie | null = null;
+  movieList: Movie[] = [];
   newMovie: boolean = false;
   movieDate: string | undefined;
 
@@ -26,11 +26,18 @@ export class MovieDetailComponent implements OnInit {
     private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    const id = +this.route.snapshot.params['id'];
+    this.movieList = dummyMovies;
+    const id = this.route.snapshot.params['id'];
+    console.log(id);
+    console.log(typeof(id));
     if (id !== undefined) {
-      this.movie = dummyMovies.filter(m => m.id === id)[0];
-      this.movieDate = this.datePipe.transform(this.movie.date, 'dd/MM/yyyy')!;
-
+      if (id == 'new') {
+        this.newMovie = true;
+        this.setDefaultForm();
+      } else {
+        this.movie = dummyMovies.filter(m => m.id === parseInt(id))[0];
+        this.movieDate = this.datePipe.transform(this.movie.date, 'dd/MM/yyyy')!;
+      }
     }
   }
 
@@ -80,8 +87,17 @@ export class MovieDetailComponent implements OnInit {
   }
 
   resetForm() {
-    this.movieForm!.reset();
-    alert('Form Reset');
+    this.movieForm?.reset();    
+  }
+
+  setDefaultForm() {
+    this.movie = {
+      id: -1,
+      title: '',
+      genere: '',
+      rating: 0,
+      date: new Date()
+    };
   }
 
   onSaveComplete(): void {
