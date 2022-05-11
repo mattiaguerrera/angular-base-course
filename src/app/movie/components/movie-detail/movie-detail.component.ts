@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Movie } from '../../models/movie';
+import { MovieGenre } from '../../models/movieGenre';
 import { MovieService } from '../../services/movie.service';
 
 @Component({
@@ -15,11 +16,13 @@ import { MovieService } from '../../services/movie.service';
 export class MovieDetailComponent implements OnInit {
 
   sub: Subscription | undefined;
-  pageTitle: string = 'Movie Detail';
+  pageTitle: string = 'Add Movie';
   movie: Movie | null = null;
   movieList: Movie[] = [];
   newMovie: boolean = false;
   movieDate: string | undefined;
+  movieGenres: MovieGenre[] = [];
+  movieGenreId: number = 0;
 
   @ViewChild("movieForm") private movieForm: NgForm | undefined;
 
@@ -61,18 +64,18 @@ export class MovieDetailComponent implements OnInit {
       this.movieForm.reset();
     }
     this.movie = m;
-    this.pageTitle = (!this.movie.id ? 'Add Movie' : 'Edit Movie');
     this.movieDate = this.datePipe.transform(this.movie.date, "dd/MM/yyyy")?.toString();
 
     if (m.genre_id) {
       this.sub = this.movieService.getMovieGenresList().subscribe(
         data => {
           if (data) {
-            const myGenre = data.filter(
+            this.movieGenres = data;
+            const myGenre = this.movieGenres.filter(
               (genre) => genre.id == m.genre_id
             );
             if (myGenre)
-              this.movie!.genreTitle = myGenre[0].title;
+              this.movieGenreId = myGenre[0].id;
           }
         }
       );
@@ -84,6 +87,7 @@ export class MovieDetailComponent implements OnInit {
       if (this.movieForm.dirty) {
         const m = { ...this.movie, ...this.movieForm.value }; //override movie fields with values of form edited
         if (m.id === 0) {
+          m.id = Math.floor(Math.random() * 100000);
           this.movieService.createMovie(m)
             .subscribe({
               next: x => {
@@ -97,6 +101,7 @@ export class MovieDetailComponent implements OnInit {
           const dateConcat = (dateSplit[2] + '-' + dateSplit[1] + '-' + dateSplit[0]);
           const date = new Date(dateConcat);
           m.date = this.datePipe.transform(date, 'yyyy-MM-dd');
+          m.genre_id = +m.genre_id;
           this.movieService.updateMovie(m)
             .subscribe({
               next: () => this.onSaveComplete(),
@@ -126,19 +131,19 @@ export class MovieDetailComponent implements OnInit {
 
   resetForm() {
     //gestisco un cast ad any perché devo gestire la property genre che non appartiene alla classe Movie
-    const m:any = { 
+    const m: any = {
       id: 0,
       date: '',
       title: '',
       rating: 0,
-      note:'',
-      genre:'',
-      movieGenre:''
+      note: '',
+      genre: '',
+      genre_id: 0
     }
-    // this.movieGenre = '';
+    this.newMovie = true;
     this.movieForm?.reset(
       this.movieForm?.setValue(m)
-      );
+    );
   }
 
   onSaveComplete(): void {

@@ -3,7 +3,9 @@
         <div *ngIf="newMovie == true; else elseBlock">
             <h2>{{pageTitle}}</h2>
         </div>
-        <ng-template #elseBlock>Edit Movie</ng-template>
+        <ng-template #elseBlock>
+            <h2>Edit Movie</h2>
+        </ng-template>
     </div>
     <div class="card-body">
         <form (ngSubmit)="onSubmit()" #movieForm="ngForm">
@@ -22,7 +24,8 @@
                             [(ngModel)]="movie!.title" name="title" minlength="4" required>
                         <div *ngIf="title.invalid && (title.dirty || title.touched)">
                             <div *ngIf="title.errors?.['required']" class="alert alert-warning">Inserire un titolo</div>
-                            <div *ngIf="title.errors?.['minlength']" class="alert alert-warning">Lunghezza minima 4</div>
+                            <div *ngIf="title.errors?.['minlength']" class="alert alert-warning">Lunghezza minima 4
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -34,7 +37,8 @@
                             pattern="^(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$" required>
                         <div *ngIf="date.invalid && (date.dirty || date.touched)">
                             <div *ngIf="date.errors?.['required']" class="alert alert-warning">Inserire una data</div>
-                            <div *ngIf="date.errors?.['pattern']" class="alert alert-warning">formato valido [dd/MM/yyyy]
+                            <div *ngIf="date.errors?.['pattern']" class="alert alert-warning">formato valido
+                                [dd/MM/yyyy]
                             </div>
                         </div>
                     </div>
@@ -45,7 +49,8 @@
                         <input type="text" class="form-control" id="movieRating" #rating="ngModel" #ctrl_rating
                             [(ngModel)]="movie!.rating" name="rating" pattern="^[0-5]+([\,\.][0-9]+)?$" required>
                         <div *ngIf="rating.invalid && (rating.dirty || rating.touched)">
-                            <div *ngIf="rating.errors?.['required']" class="alert alert-warning">Inserire un rating</div>
+                            <div *ngIf="rating.errors?.['required']" class="alert alert-warning">Inserire un rating
+                            </div>
                             <div *ngIf="rating.errors?.['pattern']" class="alert alert-warning">Valore deve essere
                                 compreso
                                 tra 0 e 5</div>
@@ -60,10 +65,15 @@
                     </div>
                 </div>
                 <div class="form-group row mt-1">
-                    <label for="movieGenre" class="col-sm-2 col-form-label">Genere</label>
+                    <label for="movieGenreFor" class="col-sm-2 col-form-label">Genere</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="movieGenre" #genre="ngModel" #ctrl_genre
-                            [(ngModel)]="movie!.genreTitle" name="genre">
+                        <!-- <input type="text" class="form-control" id="movieGenre" #genre="ngModel" #ctrl_genre
+                            [(ngModel)]="movie!.genreTitle" name="genre"> -->
+                        <select class="form-control" id="movieGenreFor" name="genre_id"
+                            [(ngModel)]="movieGenreId" title="genre">
+                            <option *ngFor="let genre of movieGenres" [value]="genre.id">
+                                {{genre.title}}</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row mt-5">
