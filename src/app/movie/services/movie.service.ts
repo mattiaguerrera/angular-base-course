@@ -88,4 +88,20 @@ export class MovieService {
     return movie;
   }
 
+  getError(): Observable<any> {
+    let id = 675353;
+    let url = (`${environment.urlMovie}/${id}`);
+    return this.http.get<Movie>(url)
+      .pipe(
+        tap(data => console.log('getMovie: ' + JSON.stringify(data))),
+        map(t => {
+          if(t.id !== 0)
+            throw new Error("Film ID is not valid");
+        }),
+        catchError(error => {          
+          return throwError(() => error.message);
+          //return of([]);
+        })
+      );
+  }
 }

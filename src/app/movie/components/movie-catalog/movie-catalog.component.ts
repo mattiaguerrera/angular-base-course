@@ -18,8 +18,8 @@ export class MovieCatalogComponent implements OnInit, OnDestroy {
   titleFilter: string | undefined;
 
   constructor(private router: Router,
-              private loginService: LoginService,
-              private movieService: MovieService) { }
+    private loginService: LoginService,
+    private movieService: MovieService) { }
 
   ngOnInit(): void {
 
@@ -84,4 +84,15 @@ export class MovieCatalogComponent implements OnInit, OnDestroy {
     myArray.subscribe(t => console.log(t));
   }
 
+  getError() {
+    this.movieService.getError().subscribe({
+      next: (data: any) => {
+        console.log("Processed");
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    }
+    );
+  }
 }
