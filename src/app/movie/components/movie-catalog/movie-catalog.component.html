@@ -16,7 +16,7 @@
                             <div class="list-item" style="cursor:pointer;"
                                 [ngStyle]="{'font-weight': movie==selectedMovie ? 800 : 'normal' }"
                                 [ngClass]="{even:even==true, odd:odd==true}" (click)="selectMovie(movie);">
-                                {{movie.title}}
+                                {{movie.title | convertSpaceToUnderscore }}
                             </div>
                         </td>
                         <td scope="col">{{movie.date | date: 'dd/MM/yyyy' }}</td>

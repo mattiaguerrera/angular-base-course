@@ -8,7 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { MovieCatalogComponent } from './movie/components/movie-catalog/movie-catalog.component';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
-
+import { ConvertSpaceToUnderscorePipe } from './shared/pipes/title.pipe';
 
 
 @NgModule({
@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     HomeComponent,
     MovieCatalogComponent,
+    ConvertSpaceToUnderscorePipe
   ],
   imports: [
     BrowserModule,
