@@ -88,7 +88,8 @@ export class MovieDetailComponent implements OnInit {
   }
 
   resetForm() {
-    this.movieForm?.reset();    
+    this.movieForm?.reset();  
+    this.newMovie = true;  
   }
 
   setDefaultForm() {
