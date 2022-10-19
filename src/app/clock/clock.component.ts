@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { from, interval, Observable, of, Subscription } from 'rxjs';
+import { filter, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-clock',
@@ -43,10 +43,16 @@ export class ClockComponent implements OnInit, OnDestroy {
   });
 
   constructor() {
-   }
+  }
 
   ngOnInit(): void {
     this.clock2$.subscribe();
+
+    //test Of - From - Interval
+    this.testOf();
+    this.testFrom();
+    this.testInterval();
+
   }
 
   ngOnDestroy(): void {
@@ -87,5 +93,32 @@ export class ClockComponent implements OnInit, OnDestroy {
     this.timeArr = [];
     clearInterval(this.intervals["clock"]);
   }
+
+
+  testOf() {
+    of(10, 20, 30).subscribe({
+      next: value => console.log(value),
+      error: err => console.log(err),
+      complete: () => console.log('the end')
+    });
+
+    of([1, 2, 3]).subscribe({
+      next: value => console.log(value),
+      error: err => console.log(err),
+      complete: () => console.log('the end')
+    });
+  };
+
+  testFrom() {
+    const array = [100, 200, 300, 400, 500];
+    const result = from(array);
+    result.subscribe(x => console.log(x));
+  };
+
+  testInterval() {
+    const numbers = interval(100);
+    const takeFourNumbers = numbers.pipe(take(4));
+    takeFourNumbers.subscribe(x => console.log('Next: ', x));
+  };
 
 }
