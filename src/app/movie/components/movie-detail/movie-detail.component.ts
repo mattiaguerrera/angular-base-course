@@ -121,7 +121,7 @@ export class MovieDetailComponent implements OnInit {
     } else if (this.movie!.id) {
       if (confirm(`Really delete the movie: ${this.movie!.title}?`)) {
         this.sub = this.movieService.deleteMovie(this.movie!.id).subscribe({
-          next: () => this.onSaveComplete(),
+          next: () => this.onDeleteComplete(),
           error: (err: any) => alert(err)
         }
         );
@@ -152,8 +152,14 @@ export class MovieDetailComponent implements OnInit {
       alert('Movie saved!');
       this.router.navigate(['/movie-catalog']);
     }, 1000);
-
-
+  }
+  
+  onDeleteComplete(): void {
+    setTimeout(() => {
+      this.movieForm!.reset();
+      alert('Movie deleted!');
+      this.router.navigate(['/movie-catalog']);
+    }, 1000);
   }
 
 }
