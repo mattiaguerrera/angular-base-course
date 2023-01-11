@@ -1,6 +1,14 @@
 
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
+body {
+    background-color: #F2F2F2;
+}
+
+.content {
+    padding: 100px 0;
+}
+
 .text-right {
     text-align: right;
 }

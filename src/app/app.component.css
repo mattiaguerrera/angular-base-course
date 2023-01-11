@@ -6,3 +6,11 @@
     position: absolute;
     right: 13%;
 }
+
+.navbar {
+    background-color: #1D1B1E;
+}
+
+.navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .show>.nav-link {
+    color: white;
+}

@@ -7,7 +7,7 @@ import { Component, OnChanges, Input, EventEmitter, Output } from '@angular/core
 })
 export class StarComponent implements OnChanges {
   
-  starPath:string = 'assets/images/star.png';
+  starPath:string = 'assets/images/star_black.png';
   @Input() rating = 0;
   starWidth = 0;
   @Output() ratingClicked: EventEmitter<string> =
