@@ -44,7 +44,7 @@
                     <label for="movieRating" class="col-sm-2 col-form-label">Rating</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="movieRating" #rating="ngModel" #ctrl_rating
-                            [(ngModel)]="movie!.rating" name="rating" pattern="^[0-5]+([\,\.][0-9]+)?$" required>
+                            [(ngModel)]="movie!.rating" name="rating" pattern="^(0(\.[0-9]{1,2})?|[1-4](\.[0-9]{1,2})?|5(\.00?)?)$" required>
                         <div *ngIf="rating.invalid && (rating.dirty || rating.touched)">
                             <div *ngIf="rating.errors?.['required']" class="alert alert-warning">Inserire un rating</div>
                             <div *ngIf="rating.errors?.['pattern']" class="alert alert-warning">Valore deve essere
