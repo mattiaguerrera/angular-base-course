@@ -20,6 +20,7 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
+                        <th scope="col" style="width: 20%;">image</th>
                         <th scope="col">title</th>
                         <th scope="col">date</th>
                         <th scope="col">rating</th>
@@ -28,6 +29,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let movie of listMovie; let even = even; let odd = odd">
+                        <td><img [src]="movie.poster_path" alt="image" style="max-width: 40%;"></td>
                         <td scope="col">
                             <div class="list-item" style="cursor:pointer;"
                                 [ngStyle]="{'font-weight': movie==selectedMovie ? 800 : 'normal' }"
