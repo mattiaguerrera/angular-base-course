@@ -43,9 +43,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Json Server
 
-> npm i json-server                             -- installo il package
-> json-server got.json                          -- inizializzo il web server sul file json 
-> json-server got.json -d 1000 -p 7000			-- [d: delay  p: port]
+> npm i json-server                                 -- installo il package
+> npx json-server got.json                          -- inizializzo il web server sul file json 
+> npx json-server got.json -d 1000 -p 7000			-- [d: delay  p: port]
 
 es: 
-> json-server .\src\assets\api\movies.json -d 1000 -p 7000
+> npx json-server .\src\assets\api\movies.json -d 1000 -p 7000
