@@ -1,0 +1,14 @@
+.crop {
+  overflow: hidden;
+}
+.crop span {
+  display: table-cell;
+}
+
+div {
+  cursor: pointer;
+}
+img {
+  width: 15px;
+  color: #1D1B1E;
+}

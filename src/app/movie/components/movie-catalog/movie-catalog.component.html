@@ -1,0 +1,64 @@
+<div *ngIf="listMovie">
+    <div class="row mt-4">
+        <div class="col-12">
+            <h2>Movie Catalog</h2>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-9">
+                    <input [(ngModel)]="titleFilter" [ngModelOptions]="{standalone: true}" class="form-control"
+                        name="title" placeholder="Title">
+                </div>
+                <div class="col-3">
+                    <button (click)="applyFilter()" class="btn btn-primary" type="submit">Filtra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" style="width: 20%;">image</th>
+                        <th scope="col">title</th>
+                        <th scope="col">date</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let movie of listMovie; let even = even; let odd = odd">
+                        <td><img [src]="movie.poster_path" alt="image" style="max-width: 40%;"></td>
+                        <td scope="col">
+                            <div class="list-item" style="cursor:pointer;"
+                                [ngStyle]="{'font-weight': movie==selectedMovie ? 800 : 'normal' }"
+                                [ngClass]="{even:even==true, odd:odd==true}" (click)="selectMovie(movie);">
+                                {{movie.title}}
+                            </div>
+                        </td>
+                        <td scope="col">{{movie.date | date: 'dd/MM/yyyy' }}</td>
+                        <td scope="col">
+                            <!-- {{movie.rating}} -->
+                            <pm-star [rating]="movie.rating" (ratingClicked)="showRating($event)"></pm-star>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-secondary" (click)="openMovie(movie);">detail</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-2 mt-3">
+            <div class="mb-3">
+                Nr. items: {{listMovie.length}}
+            </div>
+        </div>
+        <div class="col-10 mt-3 text-right">            
+            <button type="button" class="btn btn-danger ml-1" (click)="getError();">Get Error</button>
+            &nbsp;
+            <button type="button" class="btn btn-primary" (click)="addMovie();">Add Movie</button>                        
+        </div>
+    </div>
+
+</div>

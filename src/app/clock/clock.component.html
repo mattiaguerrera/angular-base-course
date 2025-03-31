@@ -1,0 +1,29 @@
+<div class="card mt-5">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <h1>Clock</h1>
+                <div class="row mt-5">
+                    <div class="col-md-4 mb-3">
+                        <input [(ngModel)]="secondsToAlarm" [ngModelOptions]="{standalone: true}" class="form-control"
+                            name="title" placeholder="Seconds">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-primary btn-lg" (click)="setAlarm()">Start alarm</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-secondary btn-lg" (click)="stopClock()">Turn off</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h4>Time values:</h4>
+                {{timeArr}}
+                <p *ngFor="let item of timeArr">
+                    {{ (item == 'beep!') ? (item) : (item | date: 'dd/MM/yyyy HH:ss') }}
+                </p>
+                <h3>{{clock2$ | async | date: 'mediumTime'}}</h3> 
+            </div>
+        </div>
+    </div>
+</div>
