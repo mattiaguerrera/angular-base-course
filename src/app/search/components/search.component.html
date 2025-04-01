@@ -1,0 +1,33 @@
+<div class="search-container">
+  <h4>RxJS Search Demo</h4>
+  
+  <div class="search-box">
+    <input type="text" [formControl]="searchControl" placeholder="Cerca corsi, argomenti, categorie...">
+    <div *ngIf="isLoading" class="loading-indicator">
+      Caricamento...
+    </div>
+  </div>
+  
+  <div class="results">
+    <div *ngIf="(results$ | async) as results">
+      <div *ngIf="results.length > 0; else noResults">
+        <div *ngFor="let item of results" class="result-item">
+          <div class="result-header">
+            <h3>{{ item.name }}</h3>
+            <span class="result-rating">{{ item.rating }}/5</span>
+          </div>
+          <p>{{ item.description }}</p>
+          <div class="result-category">
+            <span class="category-tag">{{ item.category }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <ng-template #noResults>
+        <div *ngIf="!isLoading" class="no-results">
+          Nessun risultato trovato.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

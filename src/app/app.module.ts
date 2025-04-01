@@ -7,11 +7,14 @@ import { LoginComponent } from './login/components/login.component';
 import { HomeComponent } from './home/home.component';
 import { MovieCatalogComponent } from './movie/components/movie-catalog/movie-catalog.component';
 import { SharedModule } from './shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetailComponent } from './movie/components/movie-detail/movie-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ClockComponent } from './clock/clock.component';
 import { LoginModule } from './login/login.module';
+import { SearchComponent } from './search/components/search.component';
+import { MessageModule } from './message/message.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -23,13 +26,17 @@ import { LoginModule } from './login/login.module';
     MovieDetailComponent,
     PageNotFoundComponent,
     ClockComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     LoginModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MessageModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
