@@ -11,13 +11,13 @@ import { FormsModule } from '@angular/forms';
 import { MovieDetailComponent } from './movie/components/movie-detail/movie-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ClockComponent } from './clock/clock.component';
+import { LoginModule } from './login/login.module';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     HomeComponent,
     MovieCatalogComponent,
     MovieDetailComponent,
@@ -27,6 +27,7 @@ import { ClockComponent } from './clock/clock.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    LoginModule,
     SharedModule,
     FormsModule
   ],
