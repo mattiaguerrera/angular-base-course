@@ -6,6 +6,8 @@ import { LoginComponent } from './login/components/login.component';
 import { MovieCatalogComponent } from './movie/components/movie-catalog/movie-catalog.component';
 import { MovieDetailComponent } from './movie/components/movie-detail/movie-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SearchComponent } from './search/components/search.component';
+import { MessageHandlerComponent } from './message/components/message-handler/message-handler.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'movie-catalog', component: MovieCatalogComponent },
   { path: 'movie-detail/:id', component: MovieDetailComponent  },
   { path: 'clock', component: ClockComponent  },
+  { path: 'search', component: SearchComponent  },
+  { path: 'message-handler', component: MessageHandlerComponent  },
   { path: '**', component: PageNotFoundComponent }
 
 ];

@@ -1,0 +1,10 @@
+<div class="sender-container">
+    <h3>Invia Messaggio</h3>
+    
+    <div class="input-group">
+      <input type="text" class="form-control" [formControl]="messageControl" placeholder="Scrivi un messaggio...">
+      <button class="btn btn-primary" [disabled]="messageControl.invalid" (click)="sendMessage()">Invia</button>
+    </div>
+    
+    <button class="reset-button" (click)="resetCounter()">Azzera Contatore</button>
+  </div>

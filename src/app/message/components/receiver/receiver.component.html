@@ -1,0 +1,17 @@
+<div class="receiver-container">
+    <h3>Messaggi Ricevuti (Totale: {{ messageCount }})</h3>
+    
+    <div class="messages">
+      <div *ngIf="messages.length === 0" class="no-messages">
+        Nessun messaggio ricevuto. Invia un messaggio dal componente mittente.
+      </div>
+      
+      <div *ngFor="let message of messages" class="message">
+        <div class="message-header">
+          <span class="sender">{{ message.sender }}</span>
+          <span class="timestamp">{{ message.timestamp | date:'HH:mm:ss' }}</span>
+        </div>
+        <div class="message-text">{{ message.text }}</div>
+      </div>
+    </div>
+  </div>
