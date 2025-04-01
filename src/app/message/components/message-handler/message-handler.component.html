@@ -1,0 +1,23 @@
+<div class="message-handler">
+    
+    <div class="components-container">
+      <div class="component-box">
+        <app-sender></app-sender>
+      </div>
+      
+      <div class="component-box">
+        <app-receiver></app-receiver>
+      </div>
+    </div>
+    
+    <div class="explanation">
+      <h2>Come Funziona</h2>
+      <p>
+        Questa demo mostra come utilizzare <strong>RxJS</strong>&nbsp;<strong>Subject</strong> e <strong>BehaviorSubject</strong> per la comunicazione tra componenti in Angular:
+      </p>
+      <ul>
+        <li><strong>Subject</strong>: Utilizzato per inviare messaggi. I component ricevono solo i messaggi emessi dopo la sottoscrizione.</li>
+        <li><strong>BehaviorSubject</strong>: Utilizzato per il contatore. Mantiene sempre un valore corrente (inizializzato a 0) e lo fornisce ai nuovi sottoscrittori.</li>
+      </ul>
+    </div>
+  </div>
