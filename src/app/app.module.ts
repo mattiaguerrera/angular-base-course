@@ -9,12 +9,13 @@ import { MovieCatalogComponent } from './movie/components/movie-catalog/movie-ca
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { ConvertSpaceToUnderscorePipe } from './shared/pipes/title.pipe';
+import { LoginModule } from './login/login.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    // LoginComponent // Non devo importarlo: sto utilizzando il module relativo (LoginModule)
     HomeComponent,
     MovieCatalogComponent,
     ConvertSpaceToUnderscorePipe
@@ -22,6 +23,7 @@ import { ConvertSpaceToUnderscorePipe } from './shared/pipes/title.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    LoginModule,  
     SharedModule,
     FormsModule
   ],
