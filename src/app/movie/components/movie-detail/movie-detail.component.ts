@@ -1,83 +1,117 @@
+// movie-detail.component.ts
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dummyMovies } from '../../models/dummy-movie';
 import { Movie } from '../../models/movie';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-movie-detail',
   templateUrl: './movie-detail.component.html',
   styleUrls: ['./movie-detail.component.css'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class MovieDetailComponent implements OnInit {
-
   pageTitle: string = 'Movie Detail';
   movie: Movie | null = null;
   movieList: Movie[] = [];
   newMovie: boolean = false;
-  movieDate: string | undefined;
+  movieForm: FormGroup;
 
-  @ViewChild("movieForm") private movieForm: NgForm | undefined;
-
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private router: Router,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    private fb: FormBuilder
+  ) {
+    // Inizializzazione del form con validatori
+    this.movieForm = this.fb.group({
+      id: [{ value: '', disabled: true }],
+      title: ['', [Validators.required, Validators.minLength(4)]],
+      date: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/
+          ),
+        ],
+      ],
+      rating: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(0(\.[0-9]{1,2})?|[1-4](\.[0-9]{1,2})?|5(\.00?)?)$/
+          ),
+        ],
+      ],
+      note: [''],
+    });
+  }
 
   ngOnInit(): void {
     this.movieList = dummyMovies;
     const id = this.route.snapshot.params['id'];
     console.log(id);
-    console.log(typeof (id));
+    console.log(typeof id);
+
     if (id !== undefined) {
       if (id == 'new') {
         this.newMovie = true;
         this.setDefaultForm();
       } else {
-        const m = dummyMovies.filter(m => m.id === parseInt(id))[0];
-        this.movie = JSON.parse(JSON.stringify(m)); //in questo modo clono il mio oggetto per la reset()
-        this.movieDate = this.datePipe.transform(this.movie?.date, 'dd/MM/yyyy')!;
+        const m = dummyMovies.filter((m) => m.id === parseInt(id))[0];
+        this.movie = JSON.parse(JSON.stringify(m));
+        this.populateForm();
       }
     }
   }
 
-  onSubmit() {
-    this.onSaveComplete();
+  populateForm(): void {
+    if (this.movie) {
+      const formattedDate = this.datePipe.transform(
+        this.movie.date,
+        'dd/MM/yyyy'
+      );
+
+      this.movieForm.patchValue({
+        id: this.movie.id,
+        title: this.movie.title,
+        date: formattedDate,
+        rating: this.movie.rating,
+        note: this.movie.note,
+      });
+    }
   }
 
+  setDefaultForm(): void {
+    this.movie = {
+      id: -1,
+      title: '',
+      genere: '',
+      rating: 0,
+      date: new Date(),
+    };
 
-  // saveMovie() {
-  //   if (this.movieForm.valid) {
-  //     if (this.movieForm.dirty) {
-  //       const m = { ...this.movie, ...this.movieForm.value }; //override movie fields with values of form edited
+    this.movieForm.patchValue({
+      id: -1,
+      title: '',
+      date: '',
+      rating: '',
+      note: '',
+    });
+  }
 
-  //       if (m.id === 0) {
-  //         this.movieService.createMovie(m)
-  //           .subscribe({
-  //             next: x => {
-  //               console.log(x);
-  //               return this.onSaveComplete();
-  //             },
-  //             error: err => this.errorMessage = err
-  //           });
-  //       } else {
-  //         this.movieService.updateMovie(m)
-  //           .subscribe({
-  //             next: () => this.onSaveComplete(),
-  //             error: err => this.notifyService.showWarning('Error Updating Movie', err)
-  //           });
-  //       }
-
-  //     }
-  //   } else {      
-  //     this.notifyService.showWarning('', 'Please correct the validation errors');
-  //   }
-  // }
+  onSubmit(): void {
+    if (this.movieForm.valid) {
+      this.onSaveComplete();
+    }
+  }
 
   deleteMovie(): void {
     if (this.movie?.id === 0) {
-      // Don't delete, it was never saved.
       this.onSaveComplete();
     } else if (this.movie!.id) {
       if (confirm(`Really delete the movie: ${this.movie!.title}?`)) {
@@ -87,29 +121,35 @@ export class MovieDetailComponent implements OnInit {
     }
   }
 
-  resetForm() {
-    this.movieForm?.reset();
-    this.newMovie = true;
-  }
-
-  setDefaultForm() {
-    this.movie = {
-      id: -1,
-      title: '',
-      genere: '',
-      rating: 0,
-      date: new Date()
-    };
+  resetForm(): void {
+    this.movieForm.reset();
+    if (this.movie) {
+      this.populateForm();
+    }
   }
 
   onSaveComplete(): void {
     setTimeout(() => {
-      this.movieForm!.reset();
+      this.movieForm.reset();
       alert('Movie saved!');
       this.router.navigate(['/movie-catalog']);
     }, 1000);
-
-
   }
 
+  // Getter per facilitare l'accesso ai controlli nel template
+  get title() {
+    return this.movieForm.get('title');
+  }
+  get date() {
+    return this.movieForm.get('date');
+  }
+  get rating() {
+    return this.movieForm.get('rating');
+  }
+  get note() {
+    return this.movieForm.get('note');
+  }
+  get id() {
+    return this.movieForm.get('id');
+  }
 }
