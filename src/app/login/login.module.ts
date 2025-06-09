@@ -1,20 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login.component';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
-
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
-  exports: [
-    LoginComponent
-  ]
+  declarations: [LoginComponent],
+  imports: [CommonModule, FormsModule],
+  exports: [LoginComponent],
 })
-export class LoginModule { }
+export class LoginModule {}

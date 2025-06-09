@@ -6,17 +6,22 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MovieGenre } from '../models/movieGenre';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MovieService {
-  
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getMovies(): Observable<Movie[]> {
     const list = this.http.get<Movie[]>(environment.urlMovie);
     const filterList = list.pipe(
       map((x: Movie[]) => {
-        x.forEach(y => y.poster_path = environment.urlMovieBase.concat('/', y.poster_path!));
+        x.forEach(
+          (y) =>
+            (y.poster_path = environment.urlMovieBase.concat(
+              '/',
+              y.poster_path!
+            ))
+        );
         return x;
       })
     );
@@ -24,33 +29,31 @@ export class MovieService {
   }
 
   getMoviebyID(id: number): Observable<Movie> {
-    if (id === 0)
-      return of(this.initializeMovie());
+    if (id === 0) return of(this.initializeMovie());
 
-    let url = (`${environment.urlMovie}/${id}`);
-    return this.http.get<Movie>(url)
-      .pipe(
-        tap(data => console.log('getMovie: ' + JSON.stringify(data)))
-      );
+    let url = `${environment.urlMovie}/${id}`;
+    return this.http
+      .get<Movie>(url)
+      .pipe(tap((data) => console.log('getMovie: ' + JSON.stringify(data))));
   }
 
   updateMovie(movie: Movie): Observable<Movie> {
-    let url = (`${environment.urlMovie}/${movie.id}`);
+    let url = `${environment.urlMovie}/${movie.id}`;
     return this.http.patch<Movie>(url, movie).pipe(
       catchError((err) => {
         throw err;
-      }));
+      })
+    );
   }
 
-  createMovie(movie: Movie): Observable<Movie> {    
+  createMovie(movie: Movie): Observable<Movie> {
     movie.id = 0;
-    return this.http.post<Movie>(environment.urlMovie, movie)
-      .pipe(
-        tap(data => console.log('createMovie: ' + JSON.stringify(data))),
-        catchError(this.handleError)
-      );
+    return this.http.post<Movie>(environment.urlMovie, movie).pipe(
+      tap((data) => console.log('createMovie: ' + JSON.stringify(data))),
+      catchError(this.handleError)
+    );
   }
-  
+
   deleteMovie(id: number): Observable<any> {
     return this.http.delete<any>(`${environment.urlMovie}/${id}`);
   }
@@ -70,11 +73,11 @@ export class MovieService {
     console.error(errorMessage);
     return throwError(() => errorMessage);
   }
-  
+
   getMovieGenresList(): Observable<MovieGenre[]> {
     return this.http.get<MovieGenre[]>(environment.urlMovieGenre);
   }
-  
+
   private initializeMovie(): Movie {
     // Return an initialized object
     let movie: Movie = {
@@ -83,25 +86,23 @@ export class MovieService {
       date: '',
       title: '',
       rating: 0,
-      genreTitle: ''
+      genreTitle: '',
     };
     return movie;
   }
 
   getError(): Observable<any> {
     let id = 675353;
-    let url = (`${environment.urlMovie}/${id}`);
-    return this.http.get<Movie>(url)
-      .pipe(
-        tap(data => console.log('getMovie: ' + JSON.stringify(data))),
-        map(t => {
-          if(t.id !== 0)
-            throw new Error("Film ID is not valid");
-        }),
-        catchError(error => {          
-          return throwError(() => error.message);
-          //return of([]);
-        })
-      );
+    let url = `${environment.urlMovie}/${id}`;
+    return this.http.get<Movie>(url).pipe(
+      tap((data) => console.log('getMovie: ' + JSON.stringify(data))),
+      map((t) => {
+        if (t.id !== 0) throw new Error('Film ID is not valid');
+      }),
+      catchError((error) => {
+        return throwError(() => error.message);
+        //return of([]);
+      })
+    );
   }
 }
